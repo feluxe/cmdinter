@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 from codecs import open
-from buildlib.yaml import load_yaml
+from buildlib.utils.yaml import load_yaml
 
 with open('README.md') as f:
     long_description = f.read()

@@ -1,27 +1,24 @@
-public_name: 'cmdinter'
-interal_name: 'cmdinter'
-version: '0.0.0-alpha.1'
-license: 'unlicensed'
-author: 'Felix Meyer-Wolters'
-author_email: 'felix@meyerwolters.de'
-maintainer: 'Felix Meyer-Wolters'
-maintainer_email: 'felix@meyerwolters.de'
-url: 'https://github.com/feluxe/cmdinter'
-description: 'A "command interface" for functions.'
-keywords: command, interface, decorator
-interpreter: "python3.6"
-gemfury_env: "python"
-pypi:
-  install_requires: []
-  packages: ["cmdinter"]
-  package_dir: {"cmdinter": "cmdinter"}
-  package_data: {}
-  py_modules: []
-  data_files: []
-  classifiers: []
-  platforms: ""
-  entry_points: {
-    "console_scripts": ["cmdinter = cmdinter.main:execute"],
-    "gui_scripts": []
-    }
-  tests_require: ['buildlib', 'wheel', 'pytest', 'setuptools']
+"public_name": "cmdinter"
+"interal_name": "cmdinter"
+"version": "0.0.0-alpha.2"
+"license": "unlicensed"
+"author": "Felix Meyer-Wolters"
+"author_email": "felix@meyerwolters.de"
+"maintainer": "Felix Meyer-Wolters"
+"maintainer_email": "felix@meyerwolters.de"
+"url": "https://github.com/feluxe/cmdinter"
+"description": "A \"command interface\" for functions."
+"keywords": "command, interface, decorator"
+"interpreter": "python3.6"
+"gemfury_env": "python"
+"pypi":
+  "install_requires": []
+  "packages": ["cmdinter"]
+  "package_dir": {"cmdinter": "cmdinter"}
+  "package_data": {}
+  "py_modules": []
+  "data_files": []
+  "classifiers": []
+  "platforms": ""
+  "entry_points": {"console_scripts": ["cmdinter = cmdinter.main:execute"], "gui_scripts": []}
+  "tests_require": ["buildlib", "wheel", "pytest", "setuptools"]
