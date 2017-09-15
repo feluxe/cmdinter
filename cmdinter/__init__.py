@@ -32,7 +32,7 @@ def gen_return_msg(
     return_messages: Optional[dict],
 ) -> str:
     """"""
-    
+
     if type(return_messages) != dict:
         return_messages = {}
 
