@@ -39,12 +39,12 @@ def return_msg(
         return_messages[1] = Status.error + 'No message provided.'
 
     if return_code in return_messages:
-        return_msg = return_messages[return_code]
+        msg = return_messages[return_code]
 
     else:
-        return_msg = return_messages[1]
+        msg = return_messages[1]
 
-    return return_msg
+    return msg
 
 
 def _get_multi_writer(
