@@ -2,7 +2,7 @@ import traceback
 import sys
 import os
 import io
-from typing import Optional, Callable, Any, NamedTuple
+from typing import Optional, Callable, Any, NamedTuple, Dict
 from contextlib import redirect_stdout
 
 
@@ -27,9 +27,33 @@ class CmdResult(NamedTuple):
     traceback: Optional[str]
 
 
-def _get_multi_writer(streams: list):
+def generate_return_msg(
+    ok_msg: str,
+    err_msg: str,
+    return_code: int,
+    custom_messages: Optional[Dict[int, str]],
+) -> str:
+    """"""
+    if custom_messages and return_code in custom_messages:
+        return_msg = custom_messages[return_code]
+
+    else:
+        if return_code == 0:
+            return_msg = ok_msg
+
+        else:
+            return_msg = err_msg
+
+    return return_msg
+
+
+def _get_multi_writer(
+    streams: list
+):
+    """"""
     writer = type('obj', (object,), {})
     writer.write = lambda s: [stream.write(s) for stream in streams]
+
     return writer
 
 
@@ -37,7 +61,7 @@ def _silent_call(
     func: Callable,
     *args: Optional[tuple],
     **kwargs: Optional[dict]
-    ):
+):
     args: tuple = args if args else ()
     kwargs: dict = kwargs if kwargs else {}
 
@@ -52,7 +76,7 @@ def _catch_func_output(
     args: Optional[tuple] = None,
     kwargs: Optional[dict] = None,
     silent: bool = False,
-    ) -> tuple:
+) -> tuple:
     """"""
     args: tuple = args if args else ()
     kwargs: dict = kwargs if kwargs else {}
@@ -71,14 +95,14 @@ def _catch_func_output(
     return func_return_val, output
 
 
-def handle_cmd_function(
+def _handle_cmd_function(
     silent: bool,
     return_stdout: bool,
     catch_err: bool,
     func: Callable,
     args: Optional[tuple],
     kwargs: Optional[dict],
-    ) -> CmdResult:
+) -> CmdResult:
     """"""
     args = args if args else ()
     kwargs = kwargs if kwargs else {}
@@ -89,18 +113,32 @@ def handle_cmd_function(
 
     try:
         if return_stdout:
-            result_with_output: tuple = _catch_func_output(func, args, kwargs, silent=silent)
+            result_with_output: tuple = _catch_func_output(
+                func=func,
+                args=args,
+                kwargs=kwargs,
+                silent=silent
+            )
+
             func_result: CmdFuncResult = result_with_output[0]
             output: str = result_with_output[1]
+
         else:
             if silent:
-                func_result: CmdFuncResult = _silent_call(func, *args, **kwargs)
+                func_result: CmdFuncResult = _silent_call(
+                    func=func,
+                    *args,
+                    **kwargs
+                )
+
             else:
                 func_result = func(*args, **kwargs)
+
             output = None
 
         if type(func_result) != CmdFuncResult:
-            raise TypeError('Command function not returning type: CmdFuncResult.')
+            raise TypeError('Command function not returning type: '
+                            'CmdFuncResult.')
 
     except Exception as e:
         trace: str = traceback.format_exc()
@@ -109,6 +147,7 @@ def handle_cmd_function(
 
         if catch_err:
             error = e
+
         else:
             raise e
 
@@ -119,14 +158,21 @@ def handle_cmd_function(
         output=output,
         error=error,
         traceback=trace
-        )
+    )
 
 
 def run_cmd(
     silent: bool = False,
     return_stdout: bool = False,
     catch_err: bool = False,
-    ) -> Callable:
+) -> Callable:
     """"""
     return lambda func, *args, **kwargs: \
-        handle_cmd_function(silent, return_stdout, catch_err, func, args, kwargs)
+        _handle_cmd_function(
+            silent=silent,
+            return_stdout=return_stdout,
+            catch_err=catch_err,
+            func=func,
+            args=args,
+            kwargs=kwargs
+        )
