@@ -7,9 +7,9 @@ from contextlib import redirect_stdout
 
 
 class Status(object):
-    ok: str = '[OK] '
-    error = '[ERROR] '
-    skip = '[SKIP] '
+    ok: str = '[OK]'
+    error = '[ERROR]'
+    skip = '[SKIP]'
 
 
 class CmdFuncResult(NamedTuple):
