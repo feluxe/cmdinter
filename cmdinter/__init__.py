@@ -2,7 +2,7 @@ import traceback
 import sys
 import os
 import io
-from typing import Optional, Callable, Any, NamedTuple, Dict
+from typing import Optional, Callable, Any, NamedTuple
 from contextlib import redirect_stdout
 
 
@@ -25,32 +25,6 @@ class CmdResult(NamedTuple):
     output: Optional[str]
     error: Optional[str]
     traceback: Optional[str]
-
-
-def gen_return_msg(
-    return_code: int,
-    return_messages: Optional[dict],
-) -> str:
-    """"""
-
-    if type(return_messages) != dict:
-        return_messages = {}
-
-    msg = return_messages.get(return_code)
-
-    if not msg and return_code == 0:
-        msg = return_messages.get('ok') or return_messages.get(0)
-
-        if not msg:
-            msg = Status.ok + 'No message provided.'
-
-    else:
-        msg = return_messages.get('err') or return_messages.get(1)
-
-        if not msg:
-            msg = Status.error + 'No message provided.'
-
-    return msg
 
 
 def _get_multi_writer(
