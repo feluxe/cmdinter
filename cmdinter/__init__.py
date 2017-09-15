@@ -27,22 +27,22 @@ class CmdResult(NamedTuple):
     traceback: Optional[str]
 
 
-def generate_return_msg(
-    ok_msg: str,
-    err_msg: str,
+def return_msg(
     return_code: int,
-    custom_messages: Optional[Dict[int, str]],
+    return_messages: Optional[Dict[int, str]],
 ) -> str:
     """"""
-    if custom_messages and return_code in custom_messages:
-        return_msg = custom_messages[return_code]
+    if 0 not in return_messages:
+        return_messages[0] = Status.ok + 'No message provided.'
+
+    if 1 not in return_messages:
+        return_messages[1] = Status.error + 'No message provided.'
+
+    if return_code in return_messages:
+        return_msg = return_messages[return_code]
 
     else:
-        if return_code == 0:
-            return_msg = ok_msg
-
-        else:
-            return_msg = err_msg
+        return_msg = return_messages[1]
 
     return return_msg
 
