@@ -58,6 +58,7 @@ You run it like this
 result: CmdResult = run_cmd(
     silent=True, 
     return_stdout=True,
+    catch_err=False,
 )(
     func=my_func,
     args=my_args,
