@@ -35,20 +35,23 @@ E.g.:
 
 `return_code` Unix return_code convention...
 
-`return_val` Some value the function returns.
+`return_val` The value the function returns. That would be what you usually 
+return via the `return` keyword.
 
 ### Status
 
-Status flags that can be used as `return_msg` prefix. 
+Status flags that can be used as `return_msg` prefix.
 
 ```python
 class Status(object):
     ok: str = '[OK]'
-    error = '[ERROR]'
-    skip = '[SKIP]'
+    error: str = '[ERROR]'
+    skip: str = '[SKIP]'
 ```
 
 ### run_cmd()
+
+This function can be used if you want to run a child function as a command.
 
 ```python
 def run_cmd(
@@ -78,7 +81,8 @@ def run_cmd(
 
 ### CmdResult
 
-A cmd should return a `CmdResult`.
+A function that is run via the `run_cmd()` function returns a `CmdResult` 
+object.
 
 ```python
 class CmdResult(NamedTuple):
@@ -90,7 +94,7 @@ class CmdResult(NamedTuple):
     traceback: Optional[str]
 ```
 
-This is an extended version of `CmdFuncResult`.
+The `CmdResult` object is an extended version of `CmdFuncResult`.
 
 `output` In case you return stdout from a child function, it's stored here.
 
