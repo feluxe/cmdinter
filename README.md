@@ -24,7 +24,7 @@ class CmdFuncResult(NamedTuple):
     value: Any
 ```
 
-`return_msg`, contains a cmd summary with a Status flag (see Status below).
+`summary`, contains a cmd summary with a Status flag (see Status below).
 E.g.:
 
 ```
@@ -40,7 +40,7 @@ return via the `return` keyword.
 
 ### Status
 
-Status flags that can be used as `return_msg` prefix.
+Status flags that can be used as `summary` prefix.
 
 ```python
 class Status(object):
@@ -103,7 +103,7 @@ object.
 class CmdResult(NamedTuple):
     returnvalue: Any
     returncode: int
-    return_msg: str
+    summary: str
     output: Optional[str]
     error: Optional[str]
     traceback: Optional[str]

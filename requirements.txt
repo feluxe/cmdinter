@@ -1,8 +1,8 @@
-buildlib==0.0.0a20
+buildlib==0.0.0a21
 cmdinter==0.0.0a13
 headlines==0.0.0a5
 prmt==0.0.0a8
-processy==0.0.0a5
+processy==1.0.2
 py==1.4.34
 pytest==3.2.0
 ruamel.yaml==0.15.34

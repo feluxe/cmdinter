@@ -134,7 +134,7 @@ def _handle_cmd_function(
     return CmdResult(
         returnvalue=func_result and getattr(func_result, 'returnvalue'),
         returncode=func_result and getattr(func_result, 'returncode'),
-        summary=func_result and getattr(func_result, 'return_msg'),
+        summary=func_result and getattr(func_result, 'summary'),
         stdout=output,
         stderr=error,
         traceback=trace
