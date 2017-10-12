@@ -19,9 +19,9 @@ A *cmd function* should return a `CmdFuncResult` object.
 
 ```python
 class CmdFuncResult(NamedTuple):
-    return_code: int
-    return_msg: str
-    return_val: Any
+    returncode: int
+    summary: str
+    value: Any
 ```
 
 `return_msg`, contains a cmd summary with a Status flag (see Status below).

@@ -13,17 +13,17 @@ class Status(object):
 
 
 class CmdFuncResult(NamedTuple):
-    return_code: int
-    return_msg: str
-    return_val: Any
+    returncode: int
+    returnvalue: Any
+    summary: str
 
 
 class CmdResult(NamedTuple):
-    return_val: Any
-    return_code: int
-    return_msg: str
-    output: Optional[str]
-    error: Optional[str]
+    returncode: int
+    returnvalue: Any
+    summary: str
+    stdout: Optional[str]
+    stderr: Optional[str]
     traceback: Optional[str]
 
 
@@ -132,11 +132,11 @@ def _handle_cmd_function(
             raise e
 
     return CmdResult(
-        return_val=func_result and getattr(func_result, 'return_val'),
-        return_msg=func_result and getattr(func_result, 'return_msg'),
-        return_code=func_result and getattr(func_result, 'return_code'),
-        output=output,
-        error=error,
+        returnvalue=func_result and getattr(func_result, 'return_val'),
+        returncode=func_result and getattr(func_result, 'return_code'),
+        summary=func_result and getattr(func_result, 'return_msg'),
+        stdout=output,
+        stderr=error,
         traceback=trace
     )
 
