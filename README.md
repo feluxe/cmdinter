@@ -3,16 +3,19 @@
 ### Description
 
 This is a library that can be used to apply a *command interface* to functions.
-`cmdinter` was created for the `buildlib` package.
+`cmdinter` was created for the [buildlib](https://pypi.python.org/pypi/buildlib) 
+package.
 
 #### CmdFuncResult
 
 A cmd function should return a `CmdFuncResult` object:
 
-    class CmdFuncResult(NamedTuple):
-        return_code: int
-        return_msg: str
-        return_val: Any
+```python3
+class CmdFuncResult(NamedTuple):
+    return_code: int
+    return_msg: str
+    return_val: Any
+```
 
 `return_msg`, contains a cmd summary with a Status flag (see Status below).
 E.g.:
