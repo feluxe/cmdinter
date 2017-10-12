@@ -6,6 +6,8 @@ This is a library that can be used to apply a *command interface* to functions.
 `cmdinter` was created for the [buildlib](https://pypi.python.org/pypi/buildlib) 
 package.
 
+## API
+
 ### CmdFuncResult
 
 A cmd function should return a `CmdFuncResult` object:
