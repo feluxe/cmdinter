@@ -52,6 +52,18 @@ class Status(object):
 ### run_cmd()
 
 This function can be used in case you want to run a child function as a command.
+You run it like this 
+
+```python
+result: CmdResult = run_cmd(
+    silent=True, 
+    return_stdout=True,
+)(
+    func=my_func,
+    args=my_args,
+    kwargs=my_kwargs,
+)
+```
 
 ```python
 def run_cmd(
