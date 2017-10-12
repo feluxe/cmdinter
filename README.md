@@ -20,12 +20,16 @@ A *cmd function* should return a `CmdFuncResult` object.
 ```python
 class CmdFuncResult(NamedTuple):
     returncode: int
+    returnvalue: Any
     summary: str
-    value: Any
 ```
 
-`summary`, contains a cmd summary with a Status flag (see Status below).
-E.g.:
+`returncode` Unix returncode convention...
+
+`returnvalue` The value the function returns. That would be what you usually 
+return via the `return` keyword.
+
+`summary`, contains a cmd summary with a Status flag (see Status below). E.g.:
 
 ```
 [OK] Run apt-get install.
@@ -33,10 +37,6 @@ E.g.:
 [Skip] Mount hard drive. Drive alrady mounted.
 ```
 
-`returncode` Unix returncode convention...
-
-`returnvalue` The value the function returns. That would be what you usually 
-return via the `return` keyword.
 
 ### Status
 
@@ -104,16 +104,16 @@ class CmdResult(NamedTuple):
     returnvalue: Any
     returncode: int
     summary: str
-    output: Optional[str]
-    error: Optional[str]
+    stdout: Optional[str]
+    stderr: Optional[str]
     traceback: Optional[str]
 ```
 
 The `CmdResult` object is an extended version of `CmdFuncResult`.
 
-`output` In case you return stdout from a child function, it's stored here.
+`stdout` In case you return stdout from a child function, it's stored here.
 
-`error` In case use the `catch_err` option to catch errors from a child function, it's stored here.
+`stderr` In case use the `catch_err` option to catch errors from a child function, it's stored here.
 
 `traceback` Error traceback is stored here.
 
