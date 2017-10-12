@@ -3,7 +3,7 @@
 ## Description
 
 This is a library that can be used to apply a *command interface* to functions.
-It's main purpose is to apply a the return_code convention to python functions 
+It's main purpose is to apply the *return_code* convention to python functions 
 and to give you some control on how to run these functions. E.g. if you need to 
 run a function silently (no stdout), if you need to return the stdout that a 
 function produces or if you need to prevent a function from throwing errors.
