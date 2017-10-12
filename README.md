@@ -51,7 +51,7 @@ class Status(object):
 
 ### run_cmd()
 
-This function can be used if you want to run a child function as a command.
+This function can be used in case you want to run a child function as a command.
 
 ```python
 def run_cmd(
