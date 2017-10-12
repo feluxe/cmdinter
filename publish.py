@@ -1,63 +1,116 @@
-import sys
-import os
 from headlines import h3
 from buildlib.utils.yaml import load_yaml
-from buildlib.cmds.sequences import publish as publish_seq
-from buildlib.cmds.sequences import git as git_seq
-
-cwd = os.getcwd()
-cfg_file = cwd + '/CONFIG.yaml'
-build_file = cwd + '/build.py'
-wheel_dir = cwd + '/dist'
-
-
-def load_cfg():
-    return load_yaml(cfg_file, keep_order=True)
-
-
-def get_version_from_cfg():
-    return load_cfg().get('version')
+from buildlib.cmds import semver
+from buildlib.cmds import git
+from buildlib.cmds import build
 
 
 def publish() -> None:
     """"""
-    git_seq_args = git_seq.get_args_interactively(
-        run_any='y',
-        show_status='y',
-        show_diff='y',
-        run_update_version='y',
-        run_add_all='y',
-        run_commit='y',
-        run_tag='y',
-        run_push='y',
-        cfg_file=cfg_file,
-        cur_version=get_version_from_cfg(),
+
+    results = []
+    cfg_file = 'CONFIG.yaml'
+
+    cur_version: str = load_yaml(
+        file=cfg_file,
+        keep_order=True
+    ).get('version')
+
+    should_update_version: bool = build.prompt.should_update_version(
+        default='y'
+    )
+
+    if should_update_version:
+        version: str = semver.prompt.semver_num_by_choice(
+            cur_version=cur_version
         )
 
-    publish_seq_args = publish_seq.get_args_interactively(
-        run_build_file='y',
-        run_push_pypi='y',
-        cfg_file=cfg_file,
-        build_file=build_file,
-        wheel_dir=wheel_dir,
-        new_version=git_seq_args.get('version') or get_version_from_cfg()
+    else:
+        version: str = cur_version
+
+    should_run_build_file: bool = build.prompt.should_run_build_file(
+        default='y'
+    )
+
+    if should_update_version:
+        results.append(
+            build.update_version_num_in_cfg_yaml(
+                config_file=cfg_file,
+                semver_num=version
+            )
         )
 
-    results = [*git_seq.run_seq(**git_seq_args), *publish_seq.run_seq(**publish_seq_args)]
+    if should_run_build_file:
+        results.append(
+            build.run_build_file(
+                build_file='build.py'
+            )
+        )
+
+    run_any_git: bool = git.prompt.should_run_any('y') \
+                        and git.prompt.confirm_status('y') \
+                        and git.prompt.confirm_diff('y')
+
+    if run_any_git:
+        should_add_all: bool = git.prompt.should_add_all(
+            default='y'
+        )
+
+        should_commit: bool = git.prompt.should_commit(
+            default='y'
+        )
+
+        if should_commit:
+            commit_msg: str = git.prompt.commit_msg()
+
+        should_tag: bool = git.prompt.should_tag(
+            default='y' if should_update_version else 'n'
+        )
+
+        should_push_git: bool = git.prompt.should_push(
+            default='y'
+        )
+
+        if any([
+            should_tag,
+            should_push_git
+        ]):
+            branch: str = git.prompt.branch()
+
+    should_push_pypi: bool = build.prompt.should_push_pypi(
+        default='y' if should_update_version else 'n'
+    )
+
+    if should_add_all:
+        results.append(
+            git.add_all()
+        )
+
+    if should_commit:
+        results.append(
+            git.commit(commit_msg)
+        )
+
+    if should_tag:
+        results.append(
+            git.tag(version, branch)
+        )
+
+    if should_push_git:
+        results.append(
+            git.push(branch)
+        )
+
+    if should_push_pypi:
+        results.append(
+            build.push_python_wheel_to_pypi()
+        )
 
     print(h3('Publish Results'))
 
-    for result in results:
+    for i, result in enumerate(results):
         print(result.return_msg)
 
 
-def execute() -> None:
-    try:
-        publish()
-    except KeyboardInterrupt:
-        print('\n\nScript aborted by user. (KeyboardInterrupt)')
-        sys.exit(1)
-
-
 if __name__ == '__main__':
-    execute()
+    publish()
