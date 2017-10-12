@@ -1,12 +1,12 @@
 # cmdinter
 
-### Description
+## Description
 
 This is a library that can be used to apply a *command interface* to functions.
 `cmdinter` was created for the [buildlib](https://pypi.python.org/pypi/buildlib) 
 package.
 
-#### CmdFuncResult
+### CmdFuncResult
 
 A cmd function should return a `CmdFuncResult` object:
 
@@ -28,7 +28,7 @@ E.g.:
 
 `return_val` Some value the function returns.
 
-#### Status
+### Status
 
 Status flags that can be used as `return_msg` prefix. 
 
@@ -37,7 +37,7 @@ class Status(object):
     error = '[ERROR]'
     skip = '[SKIP]'
 
-#### run_cmd()
+### run_cmd()
 
 
     def run_cmd(
@@ -61,7 +61,7 @@ class Status(object):
         """
  
 
-#### CmdResult
+### CmdResult
 
 A cmd should return a `CmdResult`.
 
