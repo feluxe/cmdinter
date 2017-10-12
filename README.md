@@ -66,6 +66,8 @@ result: CmdResult = run_cmd(
 )
 ```
 
+This is from the source code:
+
 ```python
 def run_cmd(
     silent: bool = False,
