@@ -46,9 +46,9 @@ def _silent_call(
     kwargs: dict = kwargs if kwargs else {}
 
     with redirect_stdout(open(os.devnull, 'w')):
-        return_val = func(*args, **kwargs)
+        returnvalue = func(*args, **kwargs)
 
-    return return_val
+    return returnvalue
 
 
 def _catch_func_output(
@@ -68,11 +68,11 @@ def _catch_func_output(
         streams.append(sys.stdout)
 
     with redirect_stdout(_get_multi_writer(streams)):
-        func_return_val: Any = func(*args, **kwargs)
+        func_returnvalue: Any = func(*args, **kwargs)
 
     output: Optional[str] = streams[0].getvalue()
 
-    return func_return_val, output
+    return func_returnvalue, output
 
 
 def _handle_cmd_function(
@@ -132,8 +132,8 @@ def _handle_cmd_function(
             raise e
 
     return CmdResult(
-        returnvalue=func_result and getattr(func_result, 'return_val'),
-        returncode=func_result and getattr(func_result, 'return_code'),
+        returnvalue=func_result and getattr(func_result, 'returnvalue'),
+        returncode=func_result and getattr(func_result, 'returncode'),
         summary=func_result and getattr(func_result, 'return_msg'),
         stdout=output,
         stderr=error,

@@ -3,7 +3,7 @@
 ## Description
 
 This is a library that can be used to apply a *command interface* to functions.
-It's main purpose is to apply the *return_code* convention to python functions 
+It's main purpose is to apply the *returncode* convention to python functions 
 and to give you some control on how to run these functions. E.g. if you need to 
 run a function silently (no stdout), if you need to return the stdout that a 
 function produces or if you need to prevent a function from throwing errors.
@@ -33,9 +33,9 @@ E.g.:
 [Skip] Mount hard drive. Drive alrady mounted.
 ```
 
-`return_code` Unix return_code convention...
+`returncode` Unix returncode convention...
 
-`return_val` The value the function returns. That would be what you usually 
+`returnvalue` The value the function returns. That would be what you usually 
 return via the `return` keyword.
 
 ### Status
@@ -101,8 +101,8 @@ object.
 
 ```python
 class CmdResult(NamedTuple):
-    return_val: Any
-    return_code: int
+    returnvalue: Any
+    returncode: int
     return_msg: str
     output: Optional[str]
     error: Optional[str]
