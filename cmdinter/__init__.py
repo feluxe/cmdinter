@@ -147,13 +147,15 @@ def run_cmd(
     catch_err: bool = False,
 ) -> Callable:
     """
-    This function works in combination with function that return a
+    This function works in combination with functions that return a
     'CmdFuncResult' object. With `run_cmd()` you get a some more control over
     these functions.
 
     Call it like this:
 
         run_cmd(silent=True, return_stdout=True)(my_func, args, kwargs)
+
+    The curried function returns a `CmdResult` object.
 
     @silent: Mute child output of child function if set to True.
     @return_stdout: Return stdout of child function.

@@ -52,13 +52,15 @@ def run_cmd(
     catch_err: bool = False,
 ) -> Callable:
     """
-    This function works in combination with function that return a 
+    This function works in combination with functions that return a 
     'CmdFuncResult' object. With `run_cmd()` you get a some more control over
     these functions.
     
     Call it like this:
     
         run_cmd(silent=True, return_stdout=True)(my_func, args, kwargs)
+    
+    The curried function returns a `CmdResult` object.
     
     @silent: Mute child output of child function if set to True.
     @return_stdout: Return stdout of child function.
@@ -86,7 +88,9 @@ class CmdResult(NamedTuple):
 This is an extended version of `CmdFuncResult`.
 
 `output` In case you return stdout from a child function, it's stored here.
+
 `error` In case use the `catch_err` option to catch errors from a child function, it's stored here.
+
 `traceback` Error traceback is stored here.
 
 
