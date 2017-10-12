@@ -10,7 +10,7 @@ package.
 
 A cmd function should return a `CmdFuncResult` object:
 
-```python3
+```python
 class CmdFuncResult(NamedTuple):
     return_code: int
     return_msg: str
