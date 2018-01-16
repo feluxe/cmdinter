@@ -142,18 +142,17 @@ def _handle_cmd_function(
 
 
 def run_cmd(
+    func: Callable,
+    args: Optional[tuple] = None,
+    kwargs: Optional[dict] = None,
     silent: bool = False,
     return_stdout: bool = False,
     catch_err: bool = False,
-) -> Callable:
+) -> CmdResult:
     """
     This function works in combination with functions that return a
     'CmdFuncResult' object. With `run_cmd()` you get a some more control over
     these functions.
-
-    Call it like this:
-
-        run_cmd(silent=True, return_stdout=True)(my_func, args, kwargs)
 
     The curried function returns a `CmdResult` object.
 
@@ -162,12 +161,59 @@ def run_cmd(
     @catch_err: Catch errors that are raised by child functions and return error
                 message with 'CmdResult' object.
     """
-    return lambda func, *args, **kwargs: \
-        _handle_cmd_function(
-            silent=silent,
-            return_stdout=return_stdout,
-            catch_err=catch_err,
-            func=func,
-            args=args,
-            kwargs=kwargs
-        )
+
+    args = args or ()
+    kwargs = kwargs or {}
+    func_result = None
+    output = None
+    error = None
+    trace = None
+
+    try:
+        if return_stdout:
+            result_with_output: tuple = _catch_func_output(
+                func=func,
+                args=args,
+                kwargs=kwargs,
+                silent=silent
+            )
+
+            func_result: CmdFuncResult = result_with_output[0]
+            output: str = result_with_output[1]
+
+        else:
+            if silent:
+                func_result: CmdFuncResult = _silent_call(
+                    func=func,
+                    *args,
+                    **kwargs
+                )
+
+            else:
+                func_result = func(*args, **kwargs)
+
+            output = None
+
+        if type(func_result) != CmdFuncResult:
+            raise TypeError('Command function not returning type: '
+                            'CmdFuncResult.')
+
+    except Exception as e:
+        trace: str = traceback.format_exc()
+
+        not silent and print(trace)
+
+        if catch_err:
+            error = e
+
+        else:
+            raise e
+
+    return CmdResult(
+        returnvalue=func_result and getattr(func_result, 'returnvalue'),
+        returncode=func_result and getattr(func_result, 'returncode'),
+        summary=func_result and getattr(func_result, 'summary'),
+        stdout=output,
+        stderr=error,
+        traceback=trace
+    )

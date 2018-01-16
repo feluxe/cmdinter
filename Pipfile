@@ -11,7 +11,7 @@ name = "pypi"
 
 [dev-packages]
 
-buildlib = "==1.0.35"
+buildlib = "==1.0.37"
 docopt = "*"
 
 
