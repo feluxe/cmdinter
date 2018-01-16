@@ -1,3 +1,0 @@
-
-recursive-exclude tests *
-include cmdinter/cli/interface.txt
