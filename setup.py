@@ -5,7 +5,7 @@ from buildlib.utils.yaml import load_yaml
 with open('README.md') as f:
     long_description = f.read()
 
-config = load_yaml('CONFIG.yaml')
+config = load_yaml('Project')
 
 setup(
     name=config['public_name'],
