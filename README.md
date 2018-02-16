@@ -1,3 +1,8 @@
+# DEPRECATED
+
+Deprecated in favor of cmdi
+
+
 # cmdinter
 
 ## Description
